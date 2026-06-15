@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -6,760 +5,127 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anzeigen2go – Finde Schnäppchen entlang deiner Route</title>
     <meta name="description" content="Anzeigen2go findet Kleinanzeigen entlang deiner Fahrtroute. Route eingeben, Suchbegriff wählen, Deals entdecken. Für iOS.">
-    <meta name="keywords" content="Kleinanzeigen, Route, Schnäppchen, iOS App, Pendler, Roadtrip">
     <meta property="og:title" content="Anzeigen2go – Schnäppchen auf deinem Weg">
     <meta property="og:description" content="Finde Kleinanzeigen entlang deiner Route – damit du nie wieder an einem guten Deal vorbeifährst.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://anzeigen2go.de">
     <meta property="og:image" content="https://anzeigen2go.de/og-image.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%238B5CF6'/><path d='M8 22 L16 10 L20 16 L24 12' stroke='white' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/><circle cx='24' cy='12' r='2' fill='white'/></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23FE4A49'/><path d='M8 22 L16 10 L20 16 L24 12' stroke='white' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/><circle cx='24' cy='12' r='2' fill='white'/></svg>">
     <style>
-        /* ===== CSS RESET & BASE ===== */
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --app-primary: #8B5CF6;
-            --price-color: #7C3AED;
-            --app-accent: #10B981;
-            --app-background: #F8F7FB;
-            --app-surface: #EDE9FD;
-            --text-primary: #1C1626;
-            --text-secondary: #6B7280;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-            --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
-            --shadow-lg: 0 8px 32px rgba(0,0,0,0.10);
-            --radius: 16px;
-            --radius-sm: 10px;
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --app-primary: #A78BFA;
-                --price-color: #C4B5FD;
-                --app-accent: #34D399;
-                --app-background: #1C1626;
-                --app-surface: #322050;
-                --text-primary: #F0EBFF;
-                --text-secondary: #B0B9C6;
-                --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
-                --shadow-md: 0 4px 16px rgba(0,0,0,0.3);
-                --shadow-lg: 0 8px 32px rgba(0,0,0,0.4);
-            }
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            font-size: 17px;
-            line-height: 1.6;
-            color: var(--text-primary);
-            background-color: var(--app-background);
-            overflow-x: hidden;
-        }
-
-        /* ===== UTILITY ===== */
-        .container {
-            max-width: 1120px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        .section {
-            padding: 96px 0;
-        }
-
-        .section-title {
-            font-size: clamp(1.75rem, 4vw, 2.5rem);
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 12px;
-        }
-
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            text-align: center;
-            max-width: 560px;
-            margin: 0 auto 56px;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 14px 28px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-primary {
-            background: var(--app-primary);
-            color: #fff;
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--app-primary);
-            border: 2px solid var(--app-primary);
-        }
-
-        /* ===== NAVIGATION ===== */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            padding: 16px 0;
-            background: var(--app-background);
-            border-bottom: 1px solid transparent;
-            transition: border-color 0.3s, backdrop-filter 0.3s;
-        }
-
-        nav.scrolled {
-            background: color-mix(in srgb, var(--app-background) 85%, transparent);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom-color: color-mix(in srgb, var(--text-primary) 8%, transparent);
-        }
-
-        nav .container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .nav-logo {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .nav-logo svg {
-            width: 32px;
-            height: 32px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .nav-links a:hover {
-            color: var(--app-primary);
-        }
-
-        .nav-cta {
-            padding: 10px 20px;
-            font-size: 0.9rem;
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-        }
-
-        .mobile-menu-btn span {
-            display: block;
-            width: 24px;
-            height: 2px;
-            background: var(--text-primary);
-            margin: 6px 0;
-            border-radius: 2px;
-            transition: 0.3s;
-        }
-
-        /* ===== HERO ===== */
-        .hero {
-            padding: 160px 0 96px;
-            text-align: center;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: var(--app-surface);
-            color: var(--app-primary);
-            font-size: 0.85rem;
-            font-weight: 600;
-            padding: 8px 16px;
-            border-radius: 50px;
-            margin-bottom: 24px;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.25rem, 6vw, 3.75rem);
-            font-weight: 800;
-            line-height: 1.15;
-            margin-bottom: 20px;
-            letter-spacing: -0.02em;
-        }
-
-        .hero h1 .highlight {
-            background: linear-gradient(135deg, var(--app-primary), var(--price-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: clamp(1.05rem, 2vw, 1.25rem);
-            color: var(--text-secondary);
-            max-width: 540px;
-            margin: 0 auto 36px;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .hero-mockup {
-            margin-top: 64px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .mockup-container {
-            position: relative;
-            width: 280px;
-            height: 560px;
-            background: var(--app-surface);
-            border-radius: 40px;
-            border: 3px solid color-mix(in srgb, var(--text-primary) 10%, transparent);
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 48px 20px 20px;
-        }
-
-        .mockup-notch {
-            position: absolute;
-            top: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 24px;
-            background: color-mix(in srgb, var(--text-primary) 12%, transparent);
-            border-radius: 12px;
-        }
-
-        .mockup-content {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .mockup-searchbar {
-            background: var(--app-background);
-            border-radius: 12px;
-            padding: 12px 16px;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        .mockup-map {
-            flex: 1;
-            min-height: 200px;
-            background: linear-gradient(135deg, 
-                color-mix(in srgb, var(--app-primary) 15%, var(--app-background)),
-                color-mix(in srgb, var(--app-accent) 10%, var(--app-background)));
-            border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .mockup-route {
-            position: absolute;
-            top: 20%;
-            left: 15%;
-            width: 70%;
-            height: 60%;
-        }
-
-        .mockup-pin {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: var(--app-primary);
-            border-radius: 50% 50% 50% 0;
-            transform: rotate(-45deg);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .mockup-pin:nth-child(1) { top: 10%; left: 20%; }
-        .mockup-pin:nth-child(2) { top: 35%; left: 55%; background: var(--app-accent); }
-        .mockup-pin:nth-child(3) { top: 60%; left: 40%; }
-        .mockup-pin:nth-child(4) { top: 75%; left: 70%; background: var(--app-accent); }
-
-        .mockup-card {
-            background: var(--app-background);
-            border-radius: 12px;
-            padding: 12px;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .mockup-card-img {
-            width: 40px;
-            height: 40px;
-            background: var(--app-primary);
-            border-radius: 8px;
-            opacity: 0.3;
-        }
-
-        .mockup-card-text {
-            flex: 1;
-        }
-
-        .mockup-card-text span {
-            display: block;
-            height: 8px;
-            background: color-mix(in srgb, var(--text-primary) 15%, transparent);
-            border-radius: 4px;
-            margin-bottom: 6px;
-        }
-
-        .mockup-card-text span:last-child {
-            width: 60%;
-            margin-bottom: 0;
-        }
-
-        /* ===== STEPS ===== */
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
-        }
-
-        .step-card {
-            text-align: center;
-            padding: 40px 28px;
-            background: var(--app-surface);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-sm);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .step-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .step-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 48px;
-            height: 48px;
-            background: var(--app-primary);
-            color: #fff;
-            font-size: 1.25rem;
-            font-weight: 700;
-            border-radius: 50%;
-            margin-bottom: 20px;
-        }
-
-        .step-icon {
-            font-size: 2.5rem;
-            margin-bottom: 12px;
-        }
-
-        .step-card h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .step-card p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        /* ===== FEATURES ===== */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-        }
-
-        .feature-card {
-            padding: 32px;
-            background: var(--app-surface);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-sm);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .feature-icon {
-            font-size: 2rem;
-            margin-bottom: 16px;
-        }
-
-        .feature-card h3 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .feature-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        /* ===== PRICING ===== */
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            align-items: start;
-        }
-
-        .pricing-card {
-            background: var(--app-surface);
-            border-radius: var(--radius);
-            padding: 36px 28px;
-            box-shadow: var(--shadow-sm);
-            position: relative;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .pricing-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .pricing-card.featured {
-            border: 2px solid var(--app-primary);
-            box-shadow: var(--shadow-lg);
-            transform: scale(1.03);
-        }
-
-        .pricing-card.featured:hover {
-            transform: scale(1.03) translateY(-4px);
-        }
-
-        .pricing-badge {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--app-primary);
-            color: #fff;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 4px 16px;
-            border-radius: 50px;
-            white-space: nowrap;
-        }
-
-        .pricing-card h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .pricing-price {
-            font-size: 2.25rem;
-            font-weight: 800;
-            color: var(--price-color);
-            margin-bottom: 4px;
-        }
-
-        .pricing-period {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-        }
-
-        .pricing-features {
-            list-style: none;
-            margin-bottom: 28px;
-        }
-
-        .pricing-features li {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 0;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            border-bottom: 1px solid color-mix(in srgb, var(--text-primary) 6%, transparent);
-        }
-
-        .pricing-features li:last-child {
-            border-bottom: none;
-        }
-
-        .pricing-features .check {
-            color: var(--app-accent);
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .pricing-features .cross {
-            color: color-mix(in srgb, var(--text-secondary) 50%, transparent);
-            font-size: 1.1rem;
-        }
-
-        .pricing-card .btn {
-            width: 100%;
-            justify-content: center;
-        }
-
-        /* ===== CTA / WAITLIST ===== */
-        .cta-section {
-            background: var(--app-surface);
-            border-radius: var(--radius);
-            padding: 64px 40px;
-            text-align: center;
-            max-width: 680px;
-            margin: 0 auto;
-            box-shadow: var(--shadow-md);
-        }
-
-        .cta-section h2 {
-            font-size: clamp(1.5rem, 3vw, 2rem);
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-
-        .cta-section p {
-            color: var(--text-secondary);
-            margin-bottom: 32px;
-        }
-
-        .waitlist-form {
-            display: flex;
-            gap: 12px;
-            max-width: 440px;
-            margin: 0 auto;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .waitlist-form input[type="email"] {
-            flex: 1;
-            min-width: 220px;
-            padding: 14px 20px;
-            border-radius: 50px;
-            border: 2px solid color-mix(in srgb, var(--text-primary) 12%, transparent);
-            background: var(--app-background);
-            color: var(--text-primary);
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .waitlist-form input[type="email"]:focus {
-            border-color: var(--app-primary);
-        }
-
-        .waitlist-form input[type="email"]::placeholder {
-            color: var(--text-secondary);
-        }
-
-        .form-note {
-            width: 100%;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-top: 12px;
-        }
-
-        /* ===== FOOTER ===== */
-        footer {
-            padding: 48px 0;
-            border-top: 1px solid color-mix(in srgb, var(--text-primary) 8%, transparent);
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 24px;
-        }
-
-        .footer-brand {
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 24px;
-            list-style: none;
-            flex-wrap: wrap;
-        }
-
-        .footer-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-        }
-
-        .footer-links a:hover {
-            color: var(--app-primary);
-        }
-
-        .footer-copy {
-            width: 100%;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            margin-top: 24px;
-        }
-
-        /* ===== ANIMATIONS ===== */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .nav-cta {
-                display: none;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .hero {
-                padding: 120px 0 64px;
-            }
-
-            .section {
-                padding: 64px 0;
-            }
-
-            .pricing-card.featured {
-                transform: none;
-            }
-
-            .pricing-card.featured:hover {
-                transform: translateY(-4px);
-            }
-
-            .cta-section {
-                padding: 40px 24px;
-            }
-
-            .mockup-container {
-                width: 240px;
-                height: 480px;
-            }
-
-            .footer-content {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-
-        /* Mobile menu open state */
-        .nav-links.open {
-            display: flex;
-            flex-direction: column;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: var(--app-background);
-            padding: 24px;
-            gap: 16px;
-            border-bottom: 1px solid color-mix(in srgb, var(--text-primary) 8%, transparent);
-            box-shadow: var(--shadow-md);
-        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{
+            --app-primary:#FE4A49;--app-secondary:#2AB7CA;--app-accent:#FED766;
+            --app-background:#F4F4F8;--app-surface:#FFFFFF;
+            --text-primary:#1A1A2E;--text-secondary:#6B7280;
+            --shadow-sm:0 1px 3px rgba(0,0,0,0.06);--shadow-md:0 4px 16px rgba(0,0,0,0.08);
+            --shadow-lg:0 8px 32px rgba(0,0,0,0.10);--radius:16px;
+        }
+        @media(prefers-color-scheme:dark){:root{
+            --app-primary:#FF6362;--app-secondary:#40CCDE;--app-accent:#FFE080;
+            --app-background:#12121E;--app-surface:#1E1E30;
+            --text-primary:#F0F0F8;--text-secondary:#9090B0;
+            --shadow-sm:0 1px 3px rgba(0,0,0,0.2);--shadow-md:0 4px 16px rgba(0,0,0,0.3);
+            --shadow-lg:0 8px 32px rgba(0,0,0,0.4);
+        }}
+        html{scroll-behavior:smooth}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:17px;line-height:1.6;color:var(--text-primary);background:var(--app-background);overflow-x:hidden}
+        .container{max-width:1120px;margin:0 auto;padding:0 24px}
+        .section{padding:96px 0}
+        .section-title{font-size:clamp(1.75rem,4vw,2.5rem);font-weight:700;text-align:center;margin-bottom:12px}
+        .section-subtitle{font-size:1.1rem;color:var(--text-secondary);text-align:center;max-width:560px;margin:0 auto 56px}
+        .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:50px;font-size:1rem;font-weight:600;text-decoration:none;border:none;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s}
+        .btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+        .btn-primary{background:var(--app-secondary);color:#fff}
+        .btn-outline{background:transparent;color:var(--app-secondary);border:2px solid var(--app-secondary)}
+        nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;background:var(--app-background);border-bottom:1px solid transparent;transition:border-color 0.3s}
+        nav.scrolled{background:color-mix(in srgb,var(--app-background) 85%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom-color:color-mix(in srgb,var(--text-primary) 8%,transparent)}
+        nav .container{display:flex;align-items:center;justify-content:space-between}
+        .nav-logo{font-size:1.25rem;font-weight:700;color:var(--text-primary);text-decoration:none;display:flex;align-items:center;gap:8px}
+        .nav-logo svg{width:32px;height:32px}
+        .nav-links{display:flex;gap:32px;list-style:none}
+        .nav-links a{color:var(--text-secondary);text-decoration:none;font-size:0.95rem;font-weight:500;transition:color 0.2s}
+        .nav-links a:hover{color:var(--app-secondary)}
+        .nav-cta{padding:10px 20px;font-size:0.9rem}
+        .mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;padding:8px}
+        .mobile-menu-btn span{display:block;width:24px;height:2px;background:var(--text-primary);margin:6px 0;border-radius:2px}
+        .hero{padding:160px 0 96px;text-align:center}
+        .hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--app-surface);color:var(--app-primary);font-size:0.85rem;font-weight:600;padding:8px 16px;border-radius:50px;margin-bottom:24px;box-shadow:var(--shadow-sm)}
+        .hero h1{font-size:clamp(2.25rem,6vw,3.75rem);font-weight:800;line-height:1.15;margin-bottom:20px;letter-spacing:-0.02em}
+        .hero h1 .highlight{background:linear-gradient(135deg,var(--app-primary),var(--app-secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .hero p{font-size:clamp(1.05rem,2vw,1.25rem);color:var(--text-secondary);max-width:540px;margin:0 auto 36px}
+        .hero-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+        .hero-screenshots{margin-top:64px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;align-items:flex-end}
+        .phone-frame{width:220px;background:var(--app-surface);border-radius:32px;border:3px solid color-mix(in srgb,var(--text-primary) 10%,transparent);box-shadow:var(--shadow-lg);overflow:hidden}
+        .phone-frame.main{width:260px}
+        .phone-frame img{width:100%;display:block}
+        .steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px}
+        .step-card{text-align:center;padding:40px 28px;background:var(--app-surface);border-radius:var(--radius);box-shadow:var(--shadow-sm);transition:transform 0.3s,box-shadow 0.3s}
+        .step-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+        .step-number{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;background:var(--app-secondary);color:#fff;font-size:1.25rem;font-weight:700;border-radius:50%;margin-bottom:20px}
+        .step-icon{font-size:2.5rem;margin-bottom:12px}
+        .step-card h3{font-size:1.2rem;font-weight:700;margin-bottom:8px}
+        .step-card p{color:var(--text-secondary);font-size:0.95rem}
+        .features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+        .feature-card{padding:32px;background:var(--app-surface);border-radius:var(--radius);box-shadow:var(--shadow-sm);transition:transform 0.3s,box-shadow 0.3s}
+        .feature-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+        .feature-icon{font-size:2rem;margin-bottom:16px}
+        .feature-card h3{font-size:1.1rem;font-weight:700;margin-bottom:8px}
+        .feature-card p{color:var(--text-secondary);font-size:0.9rem}
+        .pricing-toggle{display:flex;justify-content:center;margin-bottom:40px;gap:0;background:var(--app-surface);border-radius:50px;padding:4px;width:fit-content;margin-left:auto;margin-right:auto;box-shadow:var(--shadow-sm)}
+        .pricing-toggle button{padding:10px 24px;border:none;border-radius:50px;font-size:0.9rem;font-weight:600;cursor:pointer;transition:0.2s;background:transparent;color:var(--text-secondary)}
+        .pricing-toggle button.active{background:var(--app-secondary);color:#fff}
+        .pricing-toggle .badge{font-size:0.7rem;background:var(--app-accent);color:var(--text-primary);padding:2px 8px;border-radius:50px;margin-left:6px;font-weight:700}
+        .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;align-items:start}
+        .pricing-card{background:var(--app-surface);border-radius:var(--radius);padding:32px 24px;box-shadow:var(--shadow-sm);position:relative;transition:transform 0.3s,box-shadow 0.3s}
+        .pricing-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+        .pricing-card.featured{border:2px solid var(--app-secondary);box-shadow:var(--shadow-lg)}
+        .pricing-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--app-secondary);color:#fff;font-size:0.75rem;font-weight:700;padding:4px 16px;border-radius:50px;white-space:nowrap}
+        .pricing-card h3{font-size:1.2rem;font-weight:700;margin-bottom:8px}
+        .pricing-price{font-size:2rem;font-weight:800;color:var(--app-secondary);margin-bottom:4px}
+        .pricing-period{font-size:0.85rem;color:var(--text-secondary);margin-bottom:20px}
+        .pricing-features{list-style:none;margin-bottom:24px}
+        .pricing-features li{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:0.85rem;color:var(--text-secondary)}
+        .pricing-features .check{color:var(--app-secondary);font-weight:700}
+        .pricing-features .cross{color:color-mix(in srgb,var(--text-secondary) 40%,transparent)}
+        .pricing-features .disabled{opacity:0.4;text-decoration:line-through}
+        .pricing-card .btn{width:100%;justify-content:center;padding:12px 20px;font-size:0.9rem}
+        .cta-section{background:var(--app-surface);border-radius:var(--radius);padding:64px 40px;text-align:center;max-width:680px;margin:0 auto;box-shadow:var(--shadow-md)}
+        .cta-section h2{font-size:clamp(1.5rem,3vw,2rem);font-weight:700;margin-bottom:12px}
+        .cta-section p{color:var(--text-secondary);margin-bottom:32px}
+        .waitlist-form{display:flex;gap:12px;max-width:440px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+        .waitlist-form input[type="email"]{flex:1;min-width:220px;padding:14px 20px;border-radius:50px;border:2px solid color-mix(in srgb,var(--text-primary) 12%,transparent);background:var(--app-background);color:var(--text-primary);font-size:1rem;outline:none;transition:border-color 0.2s}
+        .waitlist-form input[type="email"]:focus{border-color:var(--app-secondary)}
+        .form-note{width:100%;font-size:0.8rem;color:var(--text-secondary);margin-top:12px}
+        footer{padding:48px 0;border-top:1px solid color-mix(in srgb,var(--text-primary) 8%,transparent)}
+        .footer-content{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
+        .footer-brand{font-weight:700;color:var(--text-primary)}
+        .footer-links{display:flex;gap:24px;list-style:none}
+        .footer-links a{color:var(--text-secondary);text-decoration:none;font-size:0.9rem;transition:color 0.2s}
+        .footer-links a:hover{color:var(--app-secondary)}
+        .footer-copy{width:100%;text-align:center;color:var(--text-secondary);font-size:0.85rem;margin-top:24px}
+        .fade-in{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease}
+        .fade-in.visible{opacity:1;transform:translateY(0)}
+        @media(max-width:768px){.nav-links,.nav-cta{display:none}.mobile-menu-btn{display:block}.hero{padding:120px 0 64px}.section{padding:64px 0}.phone-frame{width:180px}.phone-frame.main{width:220px}.hero-screenshots{gap:12px}.footer-content{flex-direction:column;text-align:center}.cta-section{padding:40px 24px}}
+        .nav-links.open{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--app-background);padding:24px;gap:16px;box-shadow:var(--shadow-md)}
     </style>
 </head>
 <body>
-
-    <!-- NAVIGATION -->
     <nav id="navbar">
         <div class="container">
             <a href="#" class="nav-logo">
-                <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="32" height="32" rx="8" fill="currentColor" style="color: var(--app-primary)"/>
-                    <path d="M8 22L14 12L18 17L24 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="24" cy="10" r="2.5" fill="white"/>
-                    <circle cx="8" cy="22" r="2.5" fill="white"/>
-                </svg>
+                <svg viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="currentColor" style="color:var(--app-primary)"/><path d="M8 22L14 12L18 17L24 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="24" cy="10" r="2.5" fill="white"/><circle cx="8" cy="22" r="2.5" fill="white"/></svg>
                 Anzeigen2go
             </a>
             <ul class="nav-links" id="navLinks">
-                <li><a href="#funktionen">Funktionen</a></li>
+                <li><a href="#funktionen">So geht's</a></li>
                 <li><a href="#features">Features</a></li>
                 <li><a href="#preise">Preise</a></li>
             </ul>
             <a href="#warteliste" class="btn btn-primary nav-cta">Warteliste</a>
-            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menü öffnen">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menü"><span></span><span></span><span></span></button>
         </div>
     </nav>
 
-    <!-- HERO -->
     <section class="hero">
         <div class="container">
             <div class="hero-badge">🚀 Bald im App Store</div>
@@ -769,150 +135,104 @@
                 <a href="#warteliste" class="btn btn-primary">Auf die Warteliste →</a>
                 <a href="#funktionen" class="btn btn-outline">So funktioniert's</a>
             </div>
-            <div class="hero-mockup fade-in">
-                <div class="mockup-container">
-                    <div class="mockup-notch"></div>
-                    <div class="mockup-content">
-                        <div class="mockup-searchbar">🔍 iPad Pro entlang A3...</div>
-                        <div class="mockup-map">
-                            <div class="mockup-pin"></div>
-                            <div class="mockup-pin"></div>
-                            <div class="mockup-pin"></div>
-                            <div class="mockup-pin"></div>
-                        </div>
-                        <div class="mockup-card">
-                            <div class="mockup-card-img"></div>
-                            <div class="mockup-card-text">
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="hero-screenshots fade-in">
+                <div class="phone-frame"><img src="results.png" alt="Ergebnisse auf Karte"></div>
+                <div class="phone-frame main"><img src="feed.png" alt="Anzeigen2go Startseite"></div>
+                <div class="phone-frame"><img src="radius.png" alt="Radius einstellen"></div>
             </div>
         </div>
     </section>
 
-    <!-- SO FUNKTIONIERT'S -->
     <section class="section" id="funktionen">
         <div class="container">
             <h2 class="section-title">So funktioniert's</h2>
-            <p class="section-subtitle">In drei einfachen Schritten zu deinem nächsten Deal – direkt auf dem Weg.</p>
+            <p class="section-subtitle">In drei Schritten zu deinem nächsten Deal – direkt auf dem Weg.</p>
             <div class="steps-grid">
-                <div class="step-card fade-in">
-                    <div class="step-number">1</div>
-                    <div class="step-icon">📍</div>
-                    <h3>Route eingeben</h3>
-                    <p>Wähle Start & Ziel deiner Fahrt – egal ob Arbeitsweg oder Roadtrip.</p>
-                </div>
-                <div class="step-card fade-in">
-                    <div class="step-number">2</div>
-                    <div class="step-icon">🔍</div>
-                    <h3>Suchbegriff wählen</h3>
-                    <p>Was suchst du? iPad, Fahrrad, Sofa – tippe ein, was du brauchst.</p>
-                </div>
-                <div class="step-card fade-in">
-                    <div class="step-number">3</div>
-                    <div class="step-icon">🎯</div>
-                    <h3>Treffer entdecken</h3>
-                    <p>Sieh alle passenden Inserate entlang deiner gesamten Strecke auf der Karte.</p>
-                </div>
+                <div class="step-card fade-in"><div class="step-number">1</div><div class="step-icon">📍</div><h3>Route eingeben</h3><p>Wähle Start & Ziel – egal ob Arbeitsweg, Wochenendtrip oder Urlaub.</p></div>
+                <div class="step-card fade-in"><div class="step-number">2</div><div class="step-icon">🔍</div><h3>Suchbegriff wählen</h3><p>Was suchst du? iPad, Fahrrad, Sofa – tippe ein, was du brauchst.</p></div>
+                <div class="step-card fade-in"><div class="step-number">3</div><div class="step-icon">🎯</div><h3>Deals entdecken</h3><p>Sieh alle passenden Inserate entlang deiner Strecke auf der Karte.</p></div>
             </div>
         </div>
     </section>
 
-    <!-- FEATURES -->
     <section class="section" id="features">
         <div class="container">
             <h2 class="section-title">Alles, was du brauchst</h2>
-            <p class="section-subtitle">Clevere Funktionen, die das Suchen entlang der Route zum Kinderspiel machen.</p>
+            <p class="section-subtitle">Clevere Funktionen für die Suche entlang der Route.</p>
             <div class="features-grid">
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">🗺️</div>
-                    <h3>Karten-Ansicht</h3>
-                    <p>Sieh alle Treffer übersichtlich auf der Karte – direkt an deiner Route markiert.</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">⚙️</div>
-                    <h3>Smarte Filter</h3>
-                    <p>Grenze Ergebnisse nach Preis, Entfernung zur Route oder Kategorie ein.</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">❤️</div>
-                    <h3>Favoriten</h3>
-                    <p>Speichere interessante Angebote und vergleiche sie auf deiner persönlichen Favoriten-Karte.</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">🛤️</div>
-                    <h3>Routen speichern</h3>
-                    <p>Speichere häufig gefahrene Routen und starte neue Suchen mit einem Tipp.</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">🔀</div>
-                    <h3>Routenauswahl</h3>
-                    <p>Wähle aus bis zu 3 Routenalternativen und vergleiche die Treffer pro Strecke.</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon">💰</div>
-                    <h3>Preisvergleich</h3>
-                    <p>Sieh auf einen Blick, wo die günstigsten Angebote entlang deiner Route liegen.</p>
-                </div>
+                <div class="feature-card fade-in"><div class="feature-icon">🗺️</div><h3>Karten-Ansicht</h3><p>Alle Treffer übersichtlich auf der Karte – direkt an deiner Route markiert.</p></div>
+                <div class="feature-card fade-in"><div class="feature-icon">⚙️</div><h3>Smarte Filter</h3><p>Ergebnisse nach Preis, Entfernung oder Verkäufertyp eingrenzen.</p></div>
+                <div class="feature-card fade-in"><div class="feature-icon">❤️</div><h3>Favoriten</h3><p>Interessante Angebote speichern und auf deiner Favoriten-Karte vergleichen.</p></div>
+                <div class="feature-card fade-in"><div class="feature-icon">🛤️</div><h3>Routen speichern</h3><p>Häufig gefahrene Routen speichern und mit einem Tipp neu durchsuchen.</p></div>
+                <div class="feature-card fade-in"><div class="feature-icon">📊</div><h3>Statistiken</h3><p>Sieh deine Suchhistorie, Top-Begriffe und wie viele Kilometer du durchsucht hast.</p></div>
+                <div class="feature-card fade-in"><div class="feature-icon">🔔</div><h3>Auto-Suche & Push</h3><p>Deine Routen werden automatisch durchsucht. Push-Nachricht bei neuen Treffern.</p></div>
             </div>
         </div>
     </section>
 
-    <!-- PRICING -->
     <section class="section" id="preise">
         <div class="container">
             <h2 class="section-title">Wähle deinen Plan</h2>
-            <p class="section-subtitle">Starte kostenlos – upgrade, wenn du mehr willst.</p>
-            <div class="pricing-grid">
-                <!-- Free -->
+            <p class="section-subtitle">Starte kostenlos – upgrade wenn du mehr willst.</p>
+            <div class="pricing-toggle">
+                <button class="active" onclick="setPricing('monthly')">Monatlich</button>
+                <button onclick="setPricing('annual')">Jährlich <span class="badge">-33%</span></button>
+            </div>
+            <div class="pricing-grid" id="pricingGrid">
                 <div class="pricing-card fade-in">
                     <h3>Free</h3>
                     <div class="pricing-price">0 €</div>
                     <div class="pricing-period">Für immer kostenlos</div>
                     <ul class="pricing-features">
-                        <li><span class="check">✓</span> 5 Suchen pro Tag</li>
-                        <li><span class="check">✓</span> 15 Treffer sichtbar</li>
-                        <li><span class="cross">✗</span> Favoriten-Karte</li>
-                        <li><span class="cross">✗</span> Routen speichern</li>
-                        <li><span class="cross">✗</span> Routenauswahl</li>
-                        <li><span class="cross">✗</span> Mein Filter</li>
-                        <li><span class="cross">✗</span> Werbefrei</li>
+                        <li><span class="check">✓</span> 1 Suche pro Tag</li>
+                        <li><span class="check">✓</span> 10 Treffer sichtbar</li>
+                        <li><span class="check">✓</span> 5 Favoriten</li>
+                        <li><span class="cross">✗</span><span class="disabled">Routen speichern</span></li>
+                        <li><span class="cross">✗</span><span class="disabled">Custom Radius</span></li>
+                        <li><span class="cross">✗</span><span class="disabled">Auto-Suche</span></li>
                     </ul>
                     <a href="#warteliste" class="btn btn-outline">Kostenlos starten</a>
                 </div>
-                <!-- Pro -->
-                <div class="pricing-card featured fade-in">
-                    <div class="pricing-badge">⭐ Beliebtester Plan</div>
-                    <h3>Pro</h3>
-                    <div class="pricing-price">0,99 €</div>
-                    <div class="pricing-period">pro Monat</div>
+                <div class="pricing-card fade-in">
+                    <h3>Light</h3>
+                    <div class="pricing-price" data-monthly="0,99 €" data-annual="7,99 €">0,99 €</div>
+                    <div class="pricing-period" data-monthly="pro Monat" data-annual="pro Jahr (0,67 €/Mo)">pro Monat</div>
                     <ul class="pricing-features">
-                        <li><span class="check">✓</span> 10 Suchen pro Tag</li>
+                        <li><span class="check">✓</span> 3 Suchen pro Tag</li>
+                        <li><span class="check">✓</span> 15 Treffer sichtbar</li>
+                        <li><span class="check">✓</span> 15 Favoriten</li>
+                        <li><span class="check">✓</span> Extra-Suchen kaufbar</li>
+                        <li><span class="cross">✗</span><span class="disabled">Routen speichern</span></li>
+                        <li><span class="cross">✗</span><span class="disabled">Auto-Suche</span></li>
+                    </ul>
+                    <a href="#warteliste" class="btn btn-outline">Light wählen</a>
+                </div>
+                <div class="pricing-card featured fade-in">
+                    <div class="pricing-badge">⭐ Beliebt</div>
+                    <h3>Pro</h3>
+                    <div class="pricing-price" data-monthly="1,99 €" data-annual="15,99 €">1,99 €</div>
+                    <div class="pricing-period" data-monthly="pro Monat" data-annual="pro Jahr (1,33 €/Mo)">pro Monat</div>
+                    <ul class="pricing-features">
+                        <li><span class="check">✓</span> 5 Suchen pro Tag</li>
                         <li><span class="check">✓</span> 50 Treffer sichtbar</li>
-                        <li><span class="check">✓</span> Favoriten-Karte</li>
-                        <li><span class="check">✓</span> Routen speichern</li>
-                        <li><span class="cross">✗</span> Routenauswahl</li>
-                        <li><span class="check">✓</span> Mein Filter</li>
-                        <li><span class="check">✓</span> Werbefrei</li>
+                        <li><span class="check">✓</span> 5 Routen speichern</li>
+                        <li><span class="check">✓</span> Custom Radius</li>
+                        <li><span class="check">✓</span> Persönlicher Filter</li>
+                        <li><span class="cross">✗</span><span class="disabled">Auto-Suche & Push</span></li>
                     </ul>
                     <a href="#warteliste" class="btn btn-primary">Pro wählen</a>
                 </div>
-                <!-- Max -->
                 <div class="pricing-card fade-in">
                     <h3>Max</h3>
-                    <div class="pricing-price">2,99 €</div>
-                    <div class="pricing-period">pro Monat</div>
+                    <div class="pricing-price" data-monthly="3,99 €" data-annual="32,99 €">3,99 €</div>
+                    <div class="pricing-period" data-monthly="pro Monat" data-annual="pro Jahr (2,75 €/Mo)">pro Monat</div>
                     <ul class="pricing-features">
-                        <li><span class="check">✓</span> Unbegrenzte Suchen</li>
+                        <li><span class="check">✓</span> 8 Suchen pro Tag</li>
                         <li><span class="check">✓</span> Alle Treffer sichtbar</li>
-                        <li><span class="check">✓</span> Favoriten-Karte</li>
-                        <li><span class="check">✓</span> Routen speichern</li>
+                        <li><span class="check">✓</span> ∞ Routen speichern</li>
                         <li><span class="check">✓</span> Routenauswahl (3 Optionen)</li>
-                        <li><span class="check">✓</span> Mein Filter</li>
-                        <li><span class="check">✓</span> Werbefrei</li>
+                        <li><span class="check">✓</span> Auto-Suche (täglich)</li>
+                        <li><span class="check">✓</span> Push bei neuen Treffern</li>
                     </ul>
                     <a href="#warteliste" class="btn btn-outline">Max wählen</a>
                 </div>
@@ -920,80 +240,49 @@
         </div>
     </section>
 
-    <!-- WARTELISTE / CTA -->
     <section class="section" id="warteliste">
         <div class="container">
             <div class="cta-section fade-in">
                 <h2>Sei von Anfang an dabei</h2>
-                <p>Trag dich auf die Warteliste ein und erhalte als Erste:r Zugang zur TestFlight-Beta.</p>
+                <p>Trag dich ein und erhalte als Erste:r Zugang zur TestFlight-Beta.</p>
                 <form class="waitlist-form" action="https://formspree.io/f/DEINE-FORM-ID" method="POST">
                     <input type="email" name="email" placeholder="deine@email.de" required>
                     <button type="submit" class="btn btn-primary">Eintragen</button>
-                    <p class="form-note">🔒 Kein Spam. Nur Updates zu Anzeigen2go. Du kannst dich jederzeit abmelden.</p>
+                    <p class="form-note">🔒 Kein Spam. Nur Updates zu Anzeigen2go.</p>
                 </form>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">Anzeigen2go</div>
                 <ul class="footer-links">
-                    <li><a href="/datenschutz.html">Datenschutz</a></li>
-                    <li><a href="/impressum.html">Impressum</a></li>
-                    <li><a href="https://twitter.com/" target="_blank" rel="noopener">Twitter</a></li>
-                    <li><a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a></li>
+                    <li><a href="datenschutz.html">Datenschutz</a></li>
+                    <li><a href="impressum.html">Impressum</a></li>
                 </ul>
-                <p class="footer-copy">© 2025 Anzeigen2go. Alle Rechte vorbehalten.</p>
+                <p class="footer-copy">© 2025 Anzeigen2go – shiftF5. Alle Rechte vorbehalten.</p>
             </div>
         </div>
     </footer>
 
-    <!-- JAVASCRIPT -->
     <script>
-        // Navbar scroll effect
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            navbar.classList.toggle('scrolled', window.scrollY > 20);
-        });
-
-        // Mobile menu toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const navLinks = document.getElementById('navLinks');
-        mobileMenuBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('open');
-        });
-
-        // Close mobile menu on link click
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('open');
-            });
-        });
-
-        // Fade-in on scroll (Intersection Observer)
-        const fadeElements = document.querySelectorAll('.fade-in');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.15,
-            rootMargin: '0px 0px -40px 0px'
-        });
-
-        fadeElements.forEach(el => observer.observe(el));
-
-        // Smooth stagger for step/feature cards
-        document.querySelectorAll('.steps-grid .fade-in, .features-grid .fade-in').forEach((el, i) => {
-            el.style.transitionDelay = `${i * 100}ms`;
-        });
+        const navbar=document.getElementById('navbar');
+        window.addEventListener('scroll',()=>{navbar.classList.toggle('scrolled',window.scrollY>20)});
+        document.getElementById('mobileMenuBtn').addEventListener('click',()=>{document.getElementById('navLinks').classList.toggle('open')});
+        document.querySelectorAll('#navLinks a').forEach(l=>l.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('open')));
+        const fadeEls=document.querySelectorAll('.fade-in');
+        const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:0.15,rootMargin:'0px 0px -40px 0px'});
+        fadeEls.forEach(el=>obs.observe(el));
+        document.querySelectorAll('.steps-grid .fade-in,.features-grid .fade-in').forEach((el,i)=>{el.style.transitionDelay=`${i*100}ms`});
+        function setPricing(mode){
+            const btns=document.querySelectorAll('.pricing-toggle button');
+            btns.forEach(b=>b.classList.remove('active'));
+            if(mode==='annual')btns[1].classList.add('active');else btns[0].classList.add('active');
+            document.querySelectorAll('.pricing-price[data-monthly]').forEach(el=>{el.textContent=el.getAttribute('data-'+mode)});
+            document.querySelectorAll('.pricing-period[data-monthly]').forEach(el=>{el.textContent=el.getAttribute('data-'+mode)});
+        }
     </script>
-
 </body>
 </html>
