@@ -55,9 +55,9 @@
         .hero p{font-size:clamp(1.05rem,2vw,1.25rem);color:var(--text-secondary);max-width:540px;margin:0 auto 36px}
         .hero-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
         .hero-screenshots{margin-top:64px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;align-items:flex-end}
-.phone-frame{width:220px;border-radius:32px;box-shadow:var(--shadow-lg);overflow:hidden}
-.phone-frame.main{width:260px}
-.phone-frame img{width:100%;display:block}
+        .phone-frame{width:220px;border-radius:32px;box-shadow:var(--shadow-lg);overflow:hidden}
+        .phone-frame.main{width:260px}
+        .phone-frame img{width:100%;display:block}
         .steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:32px}
         .step-card{text-align:center;padding:40px 28px;background:var(--app-surface);border-radius:var(--radius);box-shadow:var(--shadow-sm);transition:transform 0.3s,box-shadow 0.3s}
         .step-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
@@ -75,8 +75,8 @@
         .pricing-toggle button{padding:10px 24px;border:none;border-radius:50px;font-size:0.9rem;font-weight:600;cursor:pointer;transition:0.2s;background:transparent;color:var(--text-secondary)}
         .pricing-toggle button.active{background:var(--app-secondary);color:#fff}
         .pricing-toggle .badge{font-size:0.7rem;background:var(--app-accent);color:var(--text-primary);padding:2px 8px;border-radius:50px;margin-left:6px;font-weight:700}
-        .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;align-items:start}
-        .pricing-card{background:var(--app-surface);border-radius:var(--radius);padding:32px 24px;box-shadow:var(--shadow-sm);position:relative;transition:transform 0.3s,box-shadow 0.3s}
+        .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:700px;margin:0 auto}
+        .pricing-card{background:var(--app-surface);border-radius:var(--radius);padding:36px 28px;box-shadow:var(--shadow-sm);position:relative;transition:transform 0.3s,box-shadow 0.3s}
         .pricing-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
         .pricing-card.featured{border:2px solid var(--app-secondary);box-shadow:var(--shadow-lg)}
         .pricing-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--app-secondary);color:#fff;font-size:0.75rem;font-weight:700;padding:4px 16px;border-radius:50px;white-space:nowrap}
@@ -89,13 +89,10 @@
         .pricing-features .cross{color:color-mix(in srgb,var(--text-secondary) 40%,transparent)}
         .pricing-features .disabled{opacity:0.4;text-decoration:line-through}
         .pricing-card .btn{width:100%;justify-content:center;padding:12px 20px;font-size:0.9rem}
+        .extras-note{text-align:center;margin-top:32px;color:var(--text-secondary);font-size:0.9rem;max-width:500px;margin-left:auto;margin-right:auto}
         .cta-section{background:var(--app-surface);border-radius:var(--radius);padding:64px 40px;text-align:center;max-width:680px;margin:0 auto;box-shadow:var(--shadow-md)}
         .cta-section h2{font-size:clamp(1.5rem,3vw,2rem);font-weight:700;margin-bottom:12px}
         .cta-section p{color:var(--text-secondary);margin-bottom:32px}
-        .waitlist-form{display:flex;gap:12px;max-width:440px;margin:0 auto;flex-wrap:wrap;justify-content:center}
-        .waitlist-form input[type="email"]{flex:1;min-width:220px;padding:14px 20px;border-radius:50px;border:2px solid color-mix(in srgb,var(--text-primary) 12%,transparent);background:var(--app-background);color:var(--text-primary);font-size:1rem;outline:none;transition:border-color 0.2s}
-        .waitlist-form input[type="email"]:focus{border-color:var(--app-secondary)}
-        .form-note{width:100%;font-size:0.8rem;color:var(--text-secondary);margin-top:12px}
         footer{padding:48px 0;border-top:1px solid color-mix(in srgb,var(--text-primary) 8%,transparent)}
         .footer-content{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
         .footer-brand{font-weight:700;color:var(--text-primary)}
@@ -121,18 +118,18 @@
                 <li><a href="#features">Features</a></li>
                 <li><a href="#preise">Preise</a></li>
             </ul>
-            <a href="#warteliste" class="btn btn-primary nav-cta">Warteliste</a>
+            <a href="#download" class="btn btn-primary nav-cta">Laden</a>
             <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menü"><span></span><span></span><span></span></button>
         </div>
     </nav>
 
     <section class="hero">
         <div class="container">
-            <div class="hero-badge">🚀 Bald im App Store</div>
+            <div class="hero-badge">📱 Jetzt im App Store</div>
             <h1>Schnäppchen auf<br><span class="highlight">deinem Weg</span></h1>
             <p>Anzeigen2go findet Kleinanzeigen entlang deiner Route – damit du nie wieder an einem guten Deal vorbeifährst.</p>
             <div class="hero-buttons">
-                <a href="#warteliste" class="btn btn-primary">Auf die Warteliste →</a>
+                <a href="#download" class="btn btn-primary">Im App Store laden →</a>
                 <a href="#funktionen" class="btn btn-outline">So funktioniert's</a>
             </div>
             <div class="hero-screenshots fade-in">
@@ -150,7 +147,7 @@
             <div class="steps-grid">
                 <div class="step-card fade-in"><div class="step-number">1</div><div class="step-icon">📍</div><h3>Route eingeben</h3><p>Wähle Start & Ziel – egal ob Arbeitsweg, Wochenendtrip oder Urlaub.</p></div>
                 <div class="step-card fade-in"><div class="step-number">2</div><div class="step-icon">🔍</div><h3>Suchbegriff wählen</h3><p>Was suchst du? iPad, Fahrrad, Sofa – tippe ein, was du brauchst.</p></div>
-                <div class="step-card fade-in"><div class="step-number">3</div><div class="step-icon">🎯</div><h3>Deals entdecken</h3><p>Sieh alle passenden Inserate entlang deiner Strecke auf der Karte.</p></div>
+                <div class="step-card fade-in"><div class="step-number">3</div><div class="step-icon">🎯</div><h3>Deals entdecken</h3><p>Sieh alle passenden Inserate entlang deiner Strecke – sortiert nach Route.</p></div>
             </div>
         </div>
     </section>
@@ -160,19 +157,19 @@
             <h2 class="section-title">Alles, was du brauchst</h2>
             <p class="section-subtitle">Clevere Funktionen für die Suche entlang der Route.</p>
             <div class="features-grid">
-                <div class="feature-card fade-in"><div class="feature-icon">🗺️</div><h3>Karten-Ansicht</h3><p>Alle Treffer übersichtlich auf der Karte – direkt an deiner Route markiert.</p></div>
-                <div class="feature-card fade-in"><div class="feature-icon">⚙️</div><h3>Smarte Filter</h3><p>Ergebnisse nach Preis, Entfernung oder Verkäufertyp eingrenzen.</p></div>
-                <div class="feature-card fade-in"><div class="feature-icon">❤️</div><h3>Favoriten</h3><p>Interessante Angebote speichern und auf deiner Favoriten-Karte vergleichen.</p></div>
-                <div class="feature-card fade-in"><div class="feature-icon">🛤️</div><h3>Routen speichern</h3><p>Häufig gefahrene Routen speichern und mit einem Tipp neu durchsuchen.</p></div>
-                <div class="feature-card fade-in"><div class="feature-icon">📊</div><h3>Statistiken</h3><p>Sieh deine Suchhistorie, Top-Begriffe und wie viele Kilometer du durchsucht hast.</p></div>
-                <div class="feature-card fade-in"><div class="feature-icon">🔔</div><h3>Auto-Suche & Push</h3><p>Deine Routen werden automatisch durchsucht. Push-Nachricht bei neuen Treffern.</p></div>
+                <div class="feature-card fade-in"><div class="feature-icon">🗺️</div><h3>Entlang der Route</h3><p>Alle Treffer übersichtlich entlang deiner Strecke – sortiert nach Position auf dem Weg.</p></div>
+                <div class="feature-card fade-in"><div class="feature-icon">⚙️</div><h3>Flexibler Radius</h3><p>Bestimme wie weit neben der Route gesucht wird – von 3 bis 25 km.</p></div>
+                <div class="feature-card fade-in"><div class="feature-icon">❤️</div><h3>Favoriten</h3><p>Interessante Angebote speichern und später wiederfinden.</p></div>
+                <div class="feature-card fade-in"><div class="feature-icon">🛤️</div><h3>Routen speichern</h3><p>Häufig gefahrene Strecken merken und mit einem Tipp neu durchsuchen.</p></div>
+                <div class="feature-card fade-in"><div class="feature-icon">🎯</div><h3>Persönlicher Filter</h3><p>Eigene Standard-Sucheinstellungen speichern und mit einem Tap anwenden.</p></div>
+                <div class="feature-card fade-in"><div class="feature-icon">🔀</div><h3>Routenauswahl</h3><p>Vergleiche bis zu 3 alternative Routen und wähle die mit den besten Treffern.</p></div>
             </div>
         </div>
     </section>
 
     <section class="section" id="preise">
         <div class="container">
-            <h2 class="section-title">Wähle deinen Plan</h2>
+            <h2 class="section-title">Einfach und fair</h2>
             <p class="section-subtitle">Starte kostenlos – upgrade wenn du mehr willst.</p>
             <div class="pricing-toggle">
                 <button class="active" onclick="setPricing('monthly')">Monatlich</button>
@@ -184,72 +181,45 @@
                     <div class="pricing-price">0 €</div>
                     <div class="pricing-period">Für immer kostenlos</div>
                     <ul class="pricing-features">
-                        <li><span class="check">✓</span> 1 Suche pro Tag</li>
-                        <li><span class="check">✓</span> 10 Treffer sichtbar</li>
-                        <li><span class="check">✓</span> 5 Favoriten</li>
-                        <li><span class="cross">✗</span><span class="disabled">Routen speichern</span></li>
-                        <li><span class="cross">✗</span><span class="disabled">Custom Radius</span></li>
-                        <li><span class="cross">✗</span><span class="disabled">Auto-Suche</span></li>
-                    </ul>
-                    <a href="#warteliste" class="btn btn-outline">Kostenlos starten</a>
-                </div>
-                <div class="pricing-card fade-in">
-                    <h3>Light</h3>
-                    <div class="pricing-price" data-monthly="0,99 €" data-annual="7,99 €">0,99 €</div>
-                    <div class="pricing-period" data-monthly="pro Monat" data-annual="pro Jahr (0,67 €/Mo)">pro Monat</div>
-                    <ul class="pricing-features">
                         <li><span class="check">✓</span> 3 Suchen pro Tag</li>
-                        <li><span class="check">✓</span> 15 Treffer sichtbar</li>
-                        <li><span class="check">✓</span> 15 Favoriten</li>
+                        <li><span class="check">✓</span> 12 Treffer sichtbar</li>
+                        <li><span class="check">✓</span> 5 Favoriten</li>
                         <li><span class="check">✓</span> Extra-Suchen kaufbar</li>
+                        <li><span class="cross">✗</span><span class="disabled">Flexibler Radius</span></li>
                         <li><span class="cross">✗</span><span class="disabled">Routen speichern</span></li>
-                        <li><span class="cross">✗</span><span class="disabled">Auto-Suche</span></li>
+                        <li><span class="cross">✗</span><span class="disabled">Persönlicher Filter</span></li>
                     </ul>
-                    <a href="#warteliste" class="btn btn-outline">Light wählen</a>
+                    <a href="#download" class="btn btn-outline">Kostenlos starten</a>
                 </div>
                 <div class="pricing-card featured fade-in">
-                    <div class="pricing-badge">⭐ Beliebt</div>
+                    <div class="pricing-badge">⭐ Empfohlen</div>
                     <h3>Pro</h3>
-                    <div class="pricing-price" data-monthly="1,99 €" data-annual="15,99 €">1,99 €</div>
-                    <div class="pricing-period" data-monthly="pro Monat" data-annual="pro Jahr (1,33 €/Mo)">pro Monat</div>
-                    <ul class="pricing-features">
-                        <li><span class="check">✓</span> 5 Suchen pro Tag</li>
-                        <li><span class="check">✓</span> 50 Treffer sichtbar</li>
-                        <li><span class="check">✓</span> 5 Routen speichern</li>
-                        <li><span class="check">✓</span> Custom Radius</li>
-                        <li><span class="check">✓</span> Persönlicher Filter</li>
-                        <li><span class="cross">✗</span><span class="disabled">Auto-Suche & Push</span></li>
-                    </ul>
-                    <a href="#warteliste" class="btn btn-primary">Pro wählen</a>
-                </div>
-                <div class="pricing-card fade-in">
-                    <h3>Max</h3>
-                    <div class="pricing-price" data-monthly="3,99 €" data-annual="32,99 €">3,99 €</div>
-                    <div class="pricing-period" data-monthly="pro Monat" data-annual="pro Jahr (2,75 €/Mo)">pro Monat</div>
+                    <div class="pricing-price" data-monthly="4,99 €" data-annual="39,99 €">4,99 €</div>
+                    <div class="pricing-period" data-monthly="pro Monat" data-annual="pro Jahr (3,33 €/Mo)">pro Monat</div>
                     <ul class="pricing-features">
                         <li><span class="check">✓</span> 8 Suchen pro Tag</li>
                         <li><span class="check">✓</span> Alle Treffer sichtbar</li>
-                        <li><span class="check">✓</span> ∞ Routen speichern</li>
-                        <li><span class="check">✓</span> Routenauswahl (3 Optionen)</li>
-                        <li><span class="check">✓</span> Auto-Suche (täglich)</li>
-                        <li><span class="check">✓</span> Push bei neuen Treffern</li>
+                        <li><span class="check">✓</span> Flexibler Radius (1–25 km)</li>
+                        <li><span class="check">✓</span> Unbegrenzt Favoriten & Routen</li>
+                        <li><span class="check">✓</span> Persönlicher Filter</li>
+                        <li><span class="check">✓</span> Routenauswahl (Alternativen)</li>
+                        <li><span class="check">✓</span> 7 Tage kostenlos testen</li>
                     </ul>
-                    <a href="#warteliste" class="btn btn-outline">Max wählen</a>
+                    <a href="#download" class="btn btn-primary">Pro starten</a>
                 </div>
             </div>
+            <p class="extras-note">
+                💡 <strong>Extra-Suchen</strong> – Tageslimit erreicht? Kauf dir zusätzliche Suchen ab 0,99 €. Verfallen nicht.
+            </p>
         </div>
     </section>
 
-    <section class="section" id="warteliste">
+    <section class="section" id="download">
         <div class="container">
             <div class="cta-section fade-in">
-                <h2>Sei von Anfang an dabei</h2>
-                <p>Trag dich ein und erhalte als Erste:r Zugang zur TestFlight-Beta.</p>
-                <form class="waitlist-form" action="https://formspree.io/f/DEINE-FORM-ID" method="POST">
-                    <input type="email" name="email" placeholder="deine@email.de" required>
-                    <button type="submit" class="btn btn-primary">Eintragen</button>
-                    <p class="form-note">🔒 Kein Spam. Nur Updates zu Anzeigen2go.</p>
-                </form>
+                <h2>Jetzt kostenlos starten</h2>
+                <p>Finde Kleinanzeigen entlang deiner Route – direkt auf deinem iPhone.</p>
+                <a href="https://apps.apple.com/app/idXXXXXXXXX" class="btn btn-primary">Im App Store laden →</a>
             </div>
         </div>
     </section>
@@ -263,7 +233,7 @@
                     <li><a href="nutzungsbedingungen.html">Nutzungsbedingungen</a></li>
                     <li><a href="impressum.html">Impressum</a></li>
                 </ul>
-                <p class="footer-copy">© 2025 Anzeigen2go – shiftF5. Alle Rechte vorbehalten.</p>
+                <p class="footer-copy">© 2026 Nils Müller-Morgenstern. Alle Rechte vorbehalten.</p>
             </div>
         </div>
     </footer>
